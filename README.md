@@ -82,11 +82,13 @@ The successful `root` authentication observed during this investigation is attri
 
 Defender for Endpoint file telemetry revealed suspicious binaries written directly to `/usr/bin`:
 
+```kql
 DeviceFileEvents  
 | where DeviceName == "linux-programmatic-fix-michael"  
 | where FileName startswith "ygljglkjgfg"  
 | project TimeGenerated, FileName, FolderPath, InitiatingProcessCommandLine  
 | order by TimeGenerated asc  
+```
 
 Observed artifacts included:
 
@@ -102,11 +104,13 @@ All were written within seconds of each other.
 
 Process telemetry revealed redundant payload retrieval attempts:
 
+```kql
 DeviceProcessEvents  
 | where DeviceName == "linux-programmatic-fix-michael"  
 | where ProcessCommandLine has_any ("curl", "wget", "good")  
 | project TimeGenerated, FileName, ProcessCommandLine  
 | order by TimeGenerated asc  
+```
 
 The same payload was retrieved using:
 
@@ -133,11 +137,13 @@ Renaming trusted utilities allows continued payload delivery while bypassing sim
 
 Persistence was established by creating an init script:
 
+```kql
 DeviceFileEvents  
 | where DeviceName == "linux-programmatic-fix-michael"  
 | where FolderPath startswith "/etc/init.d"  
 | project TimeGenerated, FileName, FolderPath, InitiatingProcessCommandLine  
 | order by TimeGenerated desc  
+```
 
 Why this is significant:
 
