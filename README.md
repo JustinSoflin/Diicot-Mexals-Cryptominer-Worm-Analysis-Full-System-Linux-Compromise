@@ -51,6 +51,8 @@ VirusTotal analysis of the recovered binary returned a **46 / 63 detection score
 
 ### Initial Detection: Malware or PUA Observed
 
+<img width="1280" height="648" alt="image" src="https://github.com/user-attachments/assets/23305203-e6f9-4434-918b-dd3c6c2dceb1" />
+
 The investigation began after Microsoft Defender for Endpoint generated an alert indicating **Malware or Potentially Unwanted Application (PUA)** activity on the Linux host. The alert correlated with suspicious file creation and execution behavior occurring under the `root` user context.
 
 This detection prompted analysis of:
@@ -60,23 +62,79 @@ This detection prompted analysis of:
 - Authentication and logon activity  
 - Network-based download behavior  
 
+<img width="1280" height="646" alt="image" src="https://github.com/user-attachments/assets/030f8102-196a-40a7-86d7-a291bb89e4e5" />
+
+- MDE mapped a lengthy Process Tree, highlighting several suspicious processes:
+   - Suspicious file dropped and launched
+   - Suspicious shell command execution
+   - Suspicious file or content ingress
+   - Executable permission added to file or directory
+   - Suspicious shell script launched
+- Along with many suspicious commands observed:
+   - wget (Remote file download)
+   - curl (Payload retrieval / C2 communication)
+   - chmod (Permission modification for execution)
+   - cron (Persistence via scheduled task, Linux scheduler)
+   - dash (Lightweight shell used to execute scripts)
+  
 ---
 
 ### Authentication Context and Lab Configuration
 
-At the time of compromise, the VM was actively being used for a **student lab exercise** designed to demonstrate insecure authentication practices.
+At the time of compromise, the VM was actively being used for a **student lab exercise** designed to trigger insecure authentication practices for Tenable scans.
 
 Lab configuration included:
 
 - SSH access intentionally exposed  
 - **Root password set to `root`**  
-- Expected vulnerability and alert generation  
+- Expected vulnerability generation in Tenable
+
+<img width="790" height="274" alt="image" src="https://github.com/user-attachments/assets/d043b7bf-4f49-40da-9512-3ed08265f18c" />
 
 This configuration mirrors conditions exploited by real-world automated attack campaigns. Multiple external IP addresses attempted authentication across multiple lab VMs, consistent with **opportunistic brute-force activity**.
 
 The successful `root` authentication observed during this investigation is attributed to **external automated intrusion**, not legitimate student activity.
 
 ---
+
+### First Look Into Compromised Device
+
+```kql
+DeviceProcessEvents
+| where DeviceName contains "fix-michael"
+| where TimeGenerated >= ago(15d)
+| order by TimeGenerated desc
+| project TimeGenerated, AccountName, DeviceName, FileName, FolderPath, InitiatingProcessParentFileName, ProcessCommandLine
+```
+
+<img width="1144" height="326" alt="image" src="https://github.com/user-attachments/assets/d4180bbb-a5bd-4228-849a-da6448cde0a9" />
+
+<br>
+
+- What this means:
+   - A persistent root-level session existed for ~48 hours
+   - That session repeatedly executed thousands of short-lived binaries
+   - Filenames were randomized
+   - Execution counts were throttled per binary
+   - Activity pattern indicates automation, not human typing
+   - Behavior is inconsistent with legitimate admin activity
+
+<img width="1184" height="470" alt="image" src="https://github.com/user-attachments/assets/5deb645c-ed6c-4d8c-bbab-548841fd69e9" />
+
+- Session ID `79416`
+   - Value is derived from Linux and added by MDE
+   - Correlates sessions to file name randomization
+   - Logs show **over 15,000** commands linking to the same session for this VM
+   - All originating from the same ParentFile `ygljglkjgfg0`
+   - Each command is within milliseconds of each other
+
+```
+Linux kernel:  creates session 79416
+        ↓
+MDE sensor:   observes + labels it
+        ↓
+Log Analytics: stores & exposes it
+```
 
 ### Malicious Binary Download Detected
 
