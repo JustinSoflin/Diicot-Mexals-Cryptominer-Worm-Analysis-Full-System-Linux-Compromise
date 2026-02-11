@@ -262,15 +262,12 @@ rm -rf .bash_history ~/.bash_history
  
 <br>
 
-SOURCE: DarkTrace blog
+**SOURCE: DarkTrace blog** <Br>
 <img width="643" height="583" alt="image" src="https://github.com/user-attachments/assets/d775f701-74fa-44bf-bda9-2ca113e9ff3b" /> <br>
-
 
 <br>
 
 ### Root Cron Persistence
-
-<img width="1175" height="342" alt="image" src="https://github.com/user-attachments/assets/42f58afa-b9c0-4b16-a493-319739ba0942" />
 
 <br>
 
@@ -283,8 +280,17 @@ SOURCE: DarkTrace blog
 - Rewrites cron to ensure it stays installed
 - This illustrates post-compromise persistence
 
+<img width="1175" height="342" alt="image" src="https://github.com/user-attachments/assets/42f58afa-b9c0-4b16-a493-319739ba0942" /> <br>
+
 <br>
 
+- many _tmp._ files in `/var/spool/cron/crontabs/` (like `tmp.RYF9JE` and `tmp.SHGiEW`) along with root crontab activity
+- These are temporary cron files created when the malware manipulates the root crontab
+- crontab writes to temp files first, then rename them into place
+   - That explains the frequent FileCreated + FileRenamed events — the malware is adding a scheduled job
+
+     <br>
+     
 ### .b4nd1d0 
 - a _leetspeak_ spelling of "Bandito"
 - Known Malware Associations
@@ -311,7 +317,7 @@ SOURCE: DarkTrace blog
 <br> 
 
 - malicious file output to `ygljglkjgfg0`
-   - Downloaded via curl and wget from a remote host (23.160.56.194/p.txt)
+   - Downloaded via `curl` and `wget` from a remote host `23.160.56.194/p.txt`
    - First seen at `/usr/bin/ygljglkjgfg0` = persistent executable
    - Then copied to `/etc/init.d/ygljglkjgfg0` = run at boot
    - and `/etc/cron.hourly/gcc.sh` = run every hour or as scheduled
@@ -321,7 +327,8 @@ SOURCE: DarkTrace blog
 <img width="1186" height="129" alt="image" src="https://github.com/user-attachments/assets/92235bb2-534f-4b07-b581-e0ae091b650f" />
   
 - `ygljglkjgfg0` is the original parent file to spawn the many randomized file names from the start
-- EX. `tdrbhhtkky`, `omicykvmml`, evade detection/break continuity in logs
+  - EX. `tdrbhhtkky`, `omicykvmml`
+  - obfuscated names evade detection/break continuity in logs
 - These are clones or secondary payloads:
    - Backdoors
    - Miner binaries
@@ -331,15 +338,12 @@ SOURCE: DarkTrace blog
 
 <img width="1469" height="1026" alt="image" src="https://github.com/user-attachments/assets/048196ef-b444-4d7a-b47c-7378c44183f5" />
 
-- Crontab modification
-You see a bunch of tmp.* files in /var/spool/cron/crontabs/ (like tmp.RYF9JE and tmp.SHGiEW) along with root crontab activity.
-These are temporary cron files created when the malware manipulates the root crontab.
-Tools like crontab - write to temp files first, then rename them into place.
-That explains the frequent FileCreated + FileRenamed events — the malware is adding a scheduled job.
+<Br>
 
-The malware edits /etc/crontab to remove old references to gcc.sh and add a new entry:
-   -*/3 * * * * root /etc/cron.hourly/gcc.sh
-   - malware will run every 3 minutes
+- **Crontab modification**
+- The malware edits `/etc/crontab` to remove old references to `gcc.sh` and add a new entry:
+   - `*/3 * * * * root /etc/cron.hourly/gcc.sh`
+   - malware will now run every 3 minutes
 
    <br>
    
