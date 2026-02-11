@@ -4,15 +4,27 @@
 
 ## Report Information
 
-- **Analyst:** Justin Soflin  
-- **Date Completed:** Feb. 04, 2026  
-- **Environment Investigated:** Cyber Range at LOG(N) Pacific  
-- **Hosts Investigated:**  
-  - `linux-programmatic-fix-michael`  
-  - `linuxprogrammaticpabon`  
-- **User Context:** root | Unauthorized miner installation & persistence  
-- **Tools & Data Sources:** Microsoft Defender for Endpoint, Log Analytics Workspaces, KQL (Kusto Query Language), Linux audit logs  
-- **Scope:** SYSTEM-level execution, persistence analysis, malware delivery chain reconstruction, log tampering assessment  
+**Analyst:** Justin Soflin  
+**Date Completed:** Feb. 04, 2026  
+**Environment:** Cyber Range at LOG(N) Pacific  
+
+**Hosts Investigated:**
+- linux-programmatic-fix-michael  
+- linuxprogrammaticpabon  
+
+**User Context:** root | Unauthorized miner installation & persistence  
+
+**Tools & Data Sources:**
+- Microsoft Defender for Endpoint  
+- Log Analytics Workspaces  
+- KQL  
+- Linux audit logs  
+
+**Scope:**
+- SYSTEM-level execution  
+- Persistence analysis  
+- Malware delivery chain reconstruction  
+- Log tampering assessment  
 
 ---
 
