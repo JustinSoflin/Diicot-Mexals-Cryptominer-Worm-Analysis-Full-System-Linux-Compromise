@@ -262,8 +262,9 @@ rm -rf .bash_history ~/.bash_history
  
 <br>
 
-<img width="643" height="583" alt="image" src="https://github.com/user-attachments/assets/d775f701-74fa-44bf-bda9-2ca113e9ff3b" /> <br>
 SOURCE: DarkTrace blog
+<img width="643" height="583" alt="image" src="https://github.com/user-attachments/assets/d775f701-74fa-44bf-bda9-2ca113e9ff3b" /> <br>
+
 
 <br>
 
@@ -273,34 +274,23 @@ SOURCE: DarkTrace blog
 
 <br>
 
-start time: 2026-01-30T14:04:23.447447Z
-end: 2026-02-02T22:47:03.418251Z
-Attacker gains root
-Drops AHTKzAEv
-Modifies SSH + passwords
-Installs root cron persistence
-Cron runs every minute
-Cron:
-Drops .b4nd1d0 into /var/tmp/*
-Executes payload
-Rewrites cron to ensure it stays installed
-This is post-compromise persistence, not recon.
+- `cron` is a built-in Linux utility for scheduling tasks
+   - these cron processes start at: 2026-01-30T14:04:23.447447Z
+   - and go on until: 2026-02-02T22:47:03.418251Z
+- these Cron tasks run _every minute_
+- cron drops `.b4nd1d0` into `/var/tmp/`
+- Executes hidden payload
+- Rewrites cron to ensure it stays installed
+- This illustrates post-compromise persistence
 
-Root-level scheduled persistence was established via crontab
-The cron job executed every ~60 seconds
-It repeatedly spawned hidden payloads in /var/tmp
-This activity was automated and non-interactive
+<br>
 
 ### .b4nd1d0 
 - a _leetspeak_ spelling of "Bandito"
 - Known Malware Associations
    - .b4nd1d0 has been observed in real Linux malware families in the wild
    - It’s typically a secondary payload, backdoor, or helper binary
-   - Its consistent naming makes it easier for the malware’s cron/systemd scripts to find and execute it repeatedly.
-
-- Random gibberish names = likely session-specific payloads
-   - .b4nd1d0 = fixed, intentional, likely malicious component
-   - Its repeated creation alongside cron persistence is a strong indicator of automated malware activity, not just a student experiment.
+   - Its consistent naming makes it easier for the malware’s cron/systemd scripts to find and execute it repeatedly
 
  <br>
  
@@ -331,13 +321,14 @@ This activity was automated and non-interactive
 <img width="1186" height="129" alt="image" src="https://github.com/user-attachments/assets/92235bb2-534f-4b07-b581-e0ae091b650f" />
   
 - `ygljglkjgfg0` is the original parent file to spawn the many randomized file names from the start
+- EX. `tdrbhhtkky`, `omicykvmml`, evade detection/break continuity in logs
 - These are clones or secondary payloads:
    - Backdoors
    - Miner binaries
    - Remote control scripts
-- Randomized file names (`tdrbhhtkky`, `omicykvmml`) evade detection/break continuity
+ 
+   <br>
 
-- **23.160.56.194 Info**
 <img width="1469" height="1026" alt="image" src="https://github.com/user-attachments/assets/048196ef-b444-4d7a-b47c-7378c44183f5" />
 
 - Crontab modification
