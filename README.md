@@ -600,7 +600,7 @@ exit $?                                         # Exit script returning last com
 
 ### Persistence via /etc/init.d
 
-**`ygljglkjgfg0` is created/copied to _/etc/init.d/_**
+**`ygljglkjgfg0` is created/copied to _/etc/init.d/_** <br>
 -`/etc/init.d/` is used for startup services Linux systems
    - That means it would run automatically at boot
 - This confirms **intentional long-term persistence**. 
