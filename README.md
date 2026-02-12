@@ -254,6 +254,7 @@ DeviceFileEvents
 
 <br>
 <br>
+<img width="1460" height="1131" alt="image" src="https://github.com/user-attachments/assets/6d3e540c-35b3-4ef7-8565-73a4daf6affc" />
 
 **Full command with annotations**
 ```bash
@@ -460,6 +461,9 @@ Renaming trusted utilities allows continued payload delivery while bypassing sim
 
 <br>
 
+<img width="656" height="1005" alt="image" src="https://github.com/user-attachments/assets/dac84ac5-56fe-4e2b-aed5-a539bfdcaf23" />
+
+
 **Full command with annotations**
 ```bash
 # --- Launch new bash shell to execute payload ---
@@ -594,6 +598,7 @@ chattr +ai ~/.ssh/authorized_keys
 The threat actor established persistent passwordless SSH access by overwriting authorized_keys and setting immutable attributes to prevent removal.
 
 <br>
+<img width="1670" height="1059" alt="image" src="https://github.com/user-attachments/assets/d1937763-4c15-40fd-b980-c44666213c08" />
 
 **Full command with annotations**
 ```bash
