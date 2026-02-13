@@ -646,10 +646,11 @@ _02/02_, actor adds their SSH public key to root's authorized_keys and makes the
 
 **Why do both?**
    - Password-based backdoors can be changed or removed by system updates, resets, or admins
-   - Ensures they can always log in via key, even if root password is changed later
+   - Implantation ensures they can always log in via key, even if root password is changed later
    - SSH key login may not generate password login attempts
    - `chattr +ai` prevents even root from editing/deleting the key without first removing the immutable attribute
-   - Makes cleanup harder for defenders
+   - Trivial fix for skilled linux users with root access
+   - Otherwise can delay remediation and prolong system infection 
      
 <br>
 
@@ -917,7 +918,6 @@ Miner
 - New outbound rules for _SSH_ and common crypto miner ports denied
    - Ports 22, 3333, 4444, 5555, etc.
 - VMs can continue Root Labs without scanning outbound IPs, even if compromised
-- **Compromised VM successfully scanned subnet 10.1.0.0/24:22**
 
   <br>
 
@@ -928,6 +928,10 @@ Miner
 <img width="1120" height="646" alt="image" src="https://github.com/user-attachments/assets/7cc46184-a833-44d7-b9be-7ccb5103f29b" />
 
 <br>
+
+**Cyber Range targeted by malware again** _Jan. 30, 2026_
+- Compromised VM successfully scanned subnet 10.1.0.0/24:22
+   - No outbound scans observed
 
 ---
 
@@ -986,41 +990,8 @@ among communicating files: retea & diicot
 
 <img width="1264" height="644" alt="image" src="https://github.com/user-attachments/assets/a1ddd61f-0cfc-4b63-86ef-744a87475176" />
 
- For a skilled Linux admin with root access, it’s trivial.
-For an average responder who doesn’t notice it, it can be confusing and time‑wasting.
-
-What chattr +ai Actually Does
-
-They ran:
-
-chattr +ai ~/.ssh/authorized_keys
 
 
-That sets two extended attributes:
 
-+a → append‑only
-
-+i → immutable
-
-The important one is immutable (+i).
-
-When a file is immutable:
-
-❌ Cannot be deleted
-
-❌ Cannot be modified
-
-❌ Cannot be renamed
-
-❌ Cannot be overwritten
-
-❌ Even root cannot edit it
-
-❌ chmod won’t work
-
-❌ rm won’t work
-
-Until you remove the flag.
-It can delay remediation and leave the system reinfected.
 
 
