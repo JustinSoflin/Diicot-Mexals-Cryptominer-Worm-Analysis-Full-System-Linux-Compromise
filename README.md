@@ -135,12 +135,18 @@ DeviceProcessEvents
 - **What this means:**
    - A persistent root-level session existed for _~5 days_
    - That session repeatedly executed _estimated thousands of_ short-lived binaries
-   - Filenames were randomized: `owqtmtieus`, `nwvslhwzwf`, etc.
    - Each binary executes for _~5 seconds_ before writing a new file
    - Activity pattern indicates automation, not human typing
    - Behavior is inconsistent with legitimate admin activity
  
     <Br>
+
+Filenames were randomized: `owqtmtieus`, `nwvslhwzwf`, etc.
+
+**More examples:** <br>
+<img width="133" height="292" alt="image" src="https://github.com/user-attachments/assets/df4e9d8a-4e05-4b19-a63e-16ee2aa2c3ae" />
+
+<Br>
 
 - **Files are located at '/usr/bin'**
    - Only root can write to `/usr/bin`
