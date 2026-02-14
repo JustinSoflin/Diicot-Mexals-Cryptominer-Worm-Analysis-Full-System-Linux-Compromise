@@ -100,9 +100,9 @@ The compromise occurred **less than 15 minutes** after the student updated crede
    
 - Along with potentially suspicious commands:
    - `wget` _Remote file download_
-   - `curl` _Payload retrieval / C2 communication_
-   - `chmod` _Permission modification for execution_
-   - `cron` _Persistence via scheduled task, Linux scheduler_
+   - `curl` _Transfers data. Similar to wget_
+   - `chmod` _Permission modification_
+   - `cron` _Scheduled task for Linux_
    - `dash` _Lightweight shell used to execute scripts_
  
      <Br>
