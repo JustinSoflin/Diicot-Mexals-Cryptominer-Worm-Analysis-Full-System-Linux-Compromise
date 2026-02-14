@@ -38,7 +38,7 @@
   - [SSH Key Implantation](#ssh-key-implantation)
   - [Crypto Mining Worm retea](#crypto-mining-worm-retea)
   - [Cloud Provider Disables Azure VNet](#cloud-provider-disables-azure-vnet)
-  - [Cyber Range Engineer Responds](#cyber-range-engineer-responds)
+  - [Containment & Eradication](#containment--eradication)
 - [Recommended Actions](#recommended-actions)
   - [Immediate Recovery](#immediate-recovery)
   - [Monitoring & Detection Improvements](#monitoring--detection-improvements)
@@ -1027,7 +1027,7 @@ Miner
 
 ---
 
-## Cyber Range Engineer responds
+## Containment & Eradication
 
 - New outbound rules for _SSH_ and common crypto miner ports denied
    - Ports 22, 3333, 4444, 5555, etc.
