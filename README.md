@@ -31,7 +31,7 @@
    - [Authentication Lab Context](#authentication-lab-context)
    - [NSG Rules for Cryptomining](#nsg-rules-for-cryptomining)
   - [Detection](#detection)
-     - [Malware or PUA Observed in MDE](#malware-or-pua-observed-in-mde)
+     - [Malware or PUA Alert in MDE](#malware-or-pua-alert-in-mde)
   - [Analysis](#analysis) 
      - [First Look Into Compromised Device](#first-look-into-compromised-device)
      - [Student & Malicious IP Logins](#student--malicious-ip-logins)
@@ -49,7 +49,7 @@
      - [Running in Memory for "File-less" Execution](#running-in-memory-for-file-less-execution)
   - [Crypto Mining Worm](#crypto-mining-worm)
   - [Containment, Eradication, & Recovery](#containment-eradication--recovery)
-- [Post-Event Activity (Lessons Learned)](#post-event-activity--lessons-learned-)
+- [Post-Event Activity (Lessons Learned)](#post-event-activity-lessons-learned)
   - [Conclusion](#conclusion)
   - [Immediate Recovery](#immediate-recovery)
   - [Monitoring & Detection Improvements](#monitoring--detection-improvements)
@@ -738,7 +738,7 @@ echo -e "\x61\x75\x74\x68\x5F\x6F\x6B\x0A" # Hex for "auth_ok" (signal success t
 
 ## Evasion:
 
-### Binary Relocation and Renaming
+### Binary Relocation & Renaming
 
 **The attacker deliberately renamed trusted system binaries:**
 
