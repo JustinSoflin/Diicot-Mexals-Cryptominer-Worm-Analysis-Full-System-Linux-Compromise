@@ -1,5 +1,7 @@
 # Diicot _(aka Mexals)_ Cryptominer Worm Infection Case Study <br> Full Linux-System Compromise at LOG(N)Pacific
 
+<Br>
+
 ## Report Information
 
 | Category | Details |
@@ -20,16 +22,23 @@
 
 ## Table of Contents
 
+
 - [Report Information](#report-information)
+- [Table of Contents](#table-of-contents)
 - [Executive Summary](#executive-summary)
-- [Investigation](#investigation)
-  - [Detection: Malware or PUA Observed in MDE](#detection-malware-or-pua-observed-in-mde)
-  - [First Look Into Compromised Device](#first-look-into-compromised-device)
-  - [Authentication Lab Context](#authentication-lab-context)
-  - [Student Password Change & First Compromise Artifact](#student-password-change--first-compromise-artifact)
-  - [Malware Injects Password Hash for Root](#malware-injects-password-hash-for-root)
-  - [diicot](#diicot)
-  - [SSH Brute Force on Internal Subnet](#ssh-brute-force-on-internal-subnet)
+- [Incident Response Lifecycle](#incident-response-lifecycle)
+- [Preparation](#preparation)
+   - [Authentication Lab Context](#authentication-lab-context)
+   - [NSG Rules for Cryptomining](#nsg-rules-for-cryptomining)
+  - [Detection](#detection)
+     - [Malware or PUA Observed in MDE](#malware-or-pua-observed-in-mde)
+  - [Analysis](#analysis) 
+     - [First Look Into Compromised Device](#first-look-into-compromised-device)
+     - [Student & Malicious IP Logins](3student--malicious-ip-logins)
+     - [First Compromise Artifact](#first-compromise-artifact)
+     - [Malware Injects Password Hash for Root](#malware-injects-password-hash-for-root)
+     - [SSH Brute Force on Internal Subnet](#ssh-brute-force-on-internal-subnet)
+     - [Diicot](#diicot)
   - [Root Cron Persistence](#root-cron-persistence)
   - [.b4nd1d0](#b4nd1d0)
   - [Malicious Binary Download p.txt & r.txt](#malicious-binary-download-ptxt--rtxt)
@@ -53,11 +62,22 @@
 
 # Executive Summary
 
-On **January 30, 2026**, a student Linux virtual machine `linux-programmatic-fix-michael` in the Cyber Range environment was fully compromised by an automated crypto-mining malware campaign known as **Diicot _(aka Mexals)_**. The malware exploited intentionally weak authentication configured for a lab exercise, installing unauthorized software, creating persistent backdoors, and performing reconnaissance.
+On January 30, 2026, a student Linux virtual machine `linux-programmatic-fix-michael` in the Cyber Range environment was fully compromised by an automated cryptomining malware campaign known as **Diicot _(aka Mexals)_**. The malware exploited intentionally weak authentication configured for a lab exercise, installing unauthorized software, creating persistent backdoors, and performing reconnaissance.
 
-Because prior containment measures were implemented following the **initial April 2025 compromise** by the same malware campaign, its activity was limited in scope. The malware attempted to evade detection by clearing logs and obfuscating files, established long-term access, and scanned only the internal network for other targets.
+The compromise occurred less than 15 minutes after the student updated credentials. The malware attempted to evade detection by clearing logs and obfuscating file names. No active cryptocurrency miner processes were observed running at the time of investigation; however, the malware's setup actions were consistent with preparation for mining operations.
 
-The compromise occurred **less than 15 minutes** after the student updated credentials, and did not trigger any alerts from the Microsoft Azure Safeguard Team. No active cryptocurrency miners were observed running, although the malware's setup actions were consistent with preparing the system for mining activity. The virtual machine in question has since been deleted, as the student's lab has concluded, and was deployed for approximately five days. Other students participating in the same lab remain potential targets, as the context of this lab aligns with this malware's initial access method.
+The affected virtual machine has since been destroyed following the conclusion of the student's lab session. The system had been deployed for approximately five days. Subsequent students participating in the same lab remain potential targets, as the lab configuration aligns with the malware's initial access method.
+
+**This incident closely mirrors a prior _April 2025_ breach involving the same campaign**. During this earlier compromise, the malware conducted nearly _250,000 outbound IP_ scans from the Cyber Range network to the publix internet. Some of those scans targeted high-profile domains, including **YouTube and Twitter**, which resulted in **external abuse complaints**.Because the malicious traffic originated from our Microsoft tenant, Azure attributed responsibility to the Cyber Range environment and temporarily restricted network resources.
+
+Following the April 2025 event, containment and segmentation improvements were implemented. As a result, during the January 2026 compromise, scanning behavior was successfully constrained to the internal subnet and did not generate external abuse reports or trigger Microsoft Azure Safeguard enforcement actions.
+
+<br>
+
+**From Microsoft Security Blog** <br>
+<img width="708" height="237" alt="image" src="https://github.com/user-attachments/assets/bfe2f5e9-04ec-4ff1-87cb-0c80330a17e0" />
+
+<br>
 
 **Key Points for Leadership:**
 
@@ -216,7 +236,9 @@ Filenames were randomized: `owqtmtieus`, `nwvslhwzwf`, etc.
    - Malware could modify itself purposely to avoid detection
    - Things like wallet addresses and ports could change within the file
 
-<img width="1184" height="470" alt="image" src="https://github.com/user-attachments/assets/5deb645c-ed6c-4d8c-bbab-548841fd69e9" />
+<img width="1184" height="470" alt="image" src="https://github.com/user-attachments/assets/5deb645c-ed6c-4d8c-bbab-548841fd69e9" /> <br>
+
+<Br>
 
 - Session ID `79416`
    - Value is derived from Linux and added by MDE
@@ -502,7 +524,7 @@ rm -rf .bash_history ~/.bash_history
 
 ### Persistence
 
-<br>
+### cron Scheduler 
 
 - `cron` is a built-in Linux utility for scheduling tasks
    - these cron processes start at: `2026-01-30T14:04:23.447447Z`
@@ -535,7 +557,7 @@ rm -rf .bash_history ~/.bash_history
 
    <br>
 
-**Startup services `/etc/init.d`**
+### Linux Startup services 
 
 **`ygljglkjgfg0` is created/copied to _/etc/init.d/_** <br>
 - `/etc/init.d/` is used for startup services on Linux systems
@@ -558,7 +580,7 @@ DeviceFileEvents
 
 <br>
 
-**SSH Key Implantation**
+### SSH Key Implantation
 
 <br>
 
@@ -1078,17 +1100,17 @@ Miner
 
 ### Conclusion
 
-This incident represents a **full Linux system compromise** carried out by the automated **Diicot (_aka Mexals_) cryptomining worm**. The malware successfully exploited intentionally weak authentication settings during a student lab exercise, demonstrating how quickly exposed systems can be overtaken when real-world attack conditions are replicated.
+This incident represents a **full Linux system compromise** carried out by the automated **Diicot (_aka Mexals_) cryptomining worm**. The malware successfully exploited intentionally weak authentication settings during a student lab exercise, demonstrating how quickly exposed systems can be overtaken.
 
-Less than **15 minutes** after the root password change, the host was compromised. The attacker achieved root-level execution, deployed obfuscated binaries, established multiple persistence mechanisms, cleared logs, and initiated internal SSH scanning. This type of attack can be financially devastating for victims — in 2022, Sysdig suggested that for every US$1 of cryptominer profit, the victim loses approximately US$53. Although no active cryptominer process was ultimately observed, the malware performed all preparatory actions consistent with staging a mining operation, including terminating any potential competing miners, tuning system limits for maximum resource consumption, and maintaining redundant access paths.
+Less than **15 minutes** after the root password change, the attacker achieved root-level execution, deployed obfuscated binaries, established multiple persistence mechanisms, cleared logs, and initiated SSH scanning. This type of attack can be financially devastating for victims — in 2022, Sysdig suggested that for every US$1 of cryptominer profit, the victim loses approximately US$53. Although no active cryptominer process was ultimately observed, the malware performed all preparatory actions consistent with staging a mining operation, including terminating any potential competing miners, tuning system limits for maximum resource consumption, and maintaining redundant access paths.
 
-The actor’s heavy use of renaming, deletion, in-memory execution, masking, and unintelligible filenames significantly complicated artifact continuity. This deliberate anti-forensic behavior made linear reconstruction difficult and highlights the operational maturity of the campaign. Microsoft Defender for Endpoint successfully detected malicious behavior early in the attack chain, enabling swift investigation and confirmation of compromise.
+The actor’s heavy use of renaming, deletion, in-memory execution, masking, and unintelligible filenames significantly complicated artifact continuity. This deliberate anti-forensic behavior made linear reconstruction difficult and highlights the operational complexity of the campaign. Microsoft Defender for Endpoint successfully detected malicious behavior early in the attack chain, enabling swift investigation and confirmation of compromise.
 
-Compared to the **April 2025 compromise**, the impact was materially reduced. Updated Network Security Group (NSG) outbound restrictions limited scanning to the internal subnet and prevented broader external propagation. This improved containment posture resulted in no escalations from Azure Safeguard Team. However, the successful internal SSH probing, as well as expected future student labs of this nature, demonstrates that additional inbound and lateral movement controls may be needed as **it seems the campaign continues to actively target the Cyber Range environment.**
+Compared to the **April 2025 compromise**, the impact was materially reduced. Updated Network Security Group (NSG) outbound restrictions limited scanning to the internal subnet and prevented large-scale external scanning. This improved containment posture resulted in no escalations from Azure Safeguard Team. However, the successful internal SSH probing demonstrates that additional inbound and lateral movement controls may be needed as **it's implied this campaign continues to scan public IP address ranges.**
 
 <br>
 
-## Key Takeaways
+### Key Takeaways
 
 - Exposed systems can be compromised within minutes
 - Weak authentication remains one of the most reliable initial access vectors
@@ -1125,7 +1147,7 @@ Compared to the **April 2025 compromise**, the impact was materially reduced. Up
 
 ---
 
-# Cryptominer Attack Chain Mappings
+# Cyber Attack Chain Mappings
 
 <img width="2592" height="1248" alt="image" src="https://github.com/user-attachments/assets/eaf829cd-2524-4946-9ac9-fe98a3179b5c" />
 
@@ -1143,7 +1165,7 @@ Compared to the **April 2025 compromise**, the impact was materially reduced. Up
 
   <br>
 
-  ## Malicious IPs Observed
+  ### Malicious IPs Observed
   
  The malicious actor utilized multiple cloud service provider IPs to stage and download payload components. 
 
