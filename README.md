@@ -33,7 +33,7 @@
      - [Malware or PUA Alert in MDE](#malware-or-pua-alert-in-mde)
 - [Analysis](#analysis) 
      - [First Look Into Compromised Device](#first-look-into-compromised-device)
-     - [Student & Malicious IP Logins](#student--malicious-ip-logins)
+     - [SSH Bruteforce on Student VM](#ssh-bruteforce-on-student-vm)
      - [First Compromise Artifact](#first-compromise-artifact)
      - [Malware Injects Password Hash for Root](#malware-injects-password-hash-for-root)
      - [SSH Brute Force on Internal Subnet](#ssh-brute-force-on-internal-subnet)
@@ -260,7 +260,7 @@ Log Analytics: stores & exposes it
 
 ---
 
-### Student & Malicious IP Logins
+### SSH Bruteforce on Student VM
 
 **Security researchers have measured that:**
 - A newly exposed SSH service often receives login attempts within minutes
